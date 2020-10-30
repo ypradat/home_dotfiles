@@ -10,7 +10,7 @@ export CLICOLOR=1
 export TERM=xterm-256color
 
 # Path to your oh-my-zsh installation.
-export ZSH="$ZSH/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # R 
 export LANG=en_US.UTF-8
