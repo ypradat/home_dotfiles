@@ -1,0 +1,16 @@
+# Mac specific
+.DS_Store
+.DS_Store?
+
+# Open cached files 
+*.m~
+*.*swp
+*.*swo
+
+# Compiled sources
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
