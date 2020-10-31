@@ -60,8 +60,6 @@ Plugin 'JamshedVesuna/vim-markdown-preview'                     " Markdown previ
 Plugin 'sbdchd/neoformat'                                       " Vim plugin for formatting code
 Plugin 'raingo/vim-matlab'                                      " Vim support ford editing Matlab scripts
 
-"Plugin 'plasticboy/vim-markdown' " Markdown syntax highlighting
-
 "set background=dark
 "colorscheme solarized
 
