@@ -127,3 +127,4 @@ unset __conda_setup
 
 # Asdf setup
 . /usr/local/opt/asdf/asdf.sh
+eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"

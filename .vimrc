@@ -30,13 +30,12 @@ Plugin 'mileszs/ack.vim'                                        " Search tools a
 Plugin 'severin-lemaignan/vim-minimap'                          " To add the overview scrollbar
 Plugin 'terryma/vim-multiple-cursors'                           " Multiple selection
 Plugin 'Valloric/YouCompleteMe'                                 " Autocompletion
-Plugin 'SirVer/ultisnips'                                       " Snippets
-Plugin 'honza/vim-snippets'                                     " Core of Snippets
+Plugin 'SirVer/ultisnips'                                       " Snippets engine
+Plugin 'honza/vim-snippets'                                     " Core of snippets (separated from the engine)
 Plugin 'ervandew/supertab'                                      " Supertab to combine youcompleteme and ultisnips
 Plugin 'Chiel92/vim-autoformat'                                 " To easily format code
 Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'} " Powerline
 Plugin 'tpope/vim-fugitive'                                     " Github
-"Plugin 'vim-latex/vim-latex'                                   " Latex
 Plugin 'lervag/vimtex'                                          " Vimtex is the most up-to-date for Latex
 Plugin 'godlygeek/tabular'                                      " Tabularize
 Plugin 'vim-scripts/indentpython.vim'                           " Python indentation
@@ -236,11 +235,15 @@ set foldlevel=99
 " YCM + Ultisnips + Dev-icons
 let g:ycm_key_list_select_completion                = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion              = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType                 = '<C-n>'
 
 " Deactivate YCM ID completion
 let g:ycm_min_num_of_chars_for_completion=99
 
-let g:SuperTabDefaultCompletionType                 = '<C-n>'
+let g:UltiSnipsListSnippets                         = "<C-w>"
+let g:UltiSnipsEditSplit                            = 'tabdo'
+
+" Ultisnips trigger and jump
 let g:UltiSnipsExpandTrigger                        = "<tab>"
 let g:UltiSnipsJumpForwardTrigger                   = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger                  = "<s-tab>"
@@ -431,6 +434,8 @@ endif
 
 au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
 
+"" Latex UltiSnips
+
 "" Latex Settings
 " comment/uncomment
 au FileType tex nnoremap <buffer> <localleader>c I%<esc>
@@ -440,10 +445,12 @@ au FileType tex nnoremap <buffer> <localleader>v mm0xx`m
 au FileType tex inoremap { {}<esc>i
 au FileType tex nnoremap <leader>b diwi\textbf{<esc>pi<Right>}<esc>
 au FileType tex vnoremap <leader>b xi\textbf{<esc>pi<Right>}<esc>
-au FileType tex nnoremap <leader>u diwi\underline{<esc>pi<Right>}<esc>
-au FileType tex vnoremap <leader>u xi\underline{<esc>pi<Right>}<esc>
 au FileType tex nnoremap <leader>i diwi\textit{<esc>pi<Right>}<esc>
 au FileType tex vnoremap <leader>i xi\textit{<esc>pi<Right>}<esc>
+au FileType tex nnoremap <leader>t diwi\texttt{<esc>pi<Right>}<esc>
+au FileType tex vnoremap <leader>t xi\texttt{<esc>pi<Right>}<esc>
+au FileType tex nnoremap <leader>u diwi\underline{<esc>pi<Right>}<esc>
+au FileType tex vnoremap <leader>u xi\underline{<esc>pi<Right>}<esc>
 
 au FileType tex setlocal shiftwidth=2
 au FileType tex setlocal spell
@@ -509,6 +516,10 @@ let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
 " SetUpKeysMapping function :
 "silent! exe 'inoremap <expr> <down> pumvisible() ? "\<c-e>\<down>" : "\<down>"'
 "silent! exe 'inoremap <expr> <up> pumvisible() ? "\<c-e>\<up>" : "\<up>"'
+"
+
+" UltiSnips
+let g:ultisnips_python_style = "numpy"
 
 " comment
 autocmd FileType python nnoremap <buffer> <localleader>c I# <esc>0
