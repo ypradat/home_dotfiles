@@ -147,9 +147,9 @@ inoremap jk <esc>
 vnoremap p "_dP
 
 " quote a word using single quotes
-nnoremap <leader>q ciw'<C-R>"'<esc>b
-vnoremap <leader>q c"^R""
-" inoremap <leader>q <C-O>:<esc>ciw'<C-R>"'
+nnoremap <leader>q ciw"<C-R>""<esc>bb
+nnoremap <leader>u di"hPl2xb
+vnoremap <leader>q c"<C-r>""<esc>bb
 
 " set colorcolumn=+1
 set hlsearch
@@ -312,6 +312,9 @@ let cmdline_app = {}
 """"""""""""""""""""""""
 
 let g:pandoc#formatting#textwidth=120
+let g:pandoc#command#use_message_buffers=1
+let g:pandoc#keyboard#blacklist_submodule_mappings=['checkboxes']
+
 
 "   Markdown
 "
