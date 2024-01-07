@@ -128,3 +128,9 @@ unset __conda_setup
 # Asdf setup
 . /usr/local/opt/asdf/asdf.sh
 eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ypradat/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ypradat/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ypradat/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ypradat/google-cloud-sdk/completion.zsh.inc'; fi

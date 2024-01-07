@@ -35,7 +35,7 @@ Plugin 'honza/vim-snippets'                                     " Core of snippe
 Plugin 'ervandew/supertab'                                      " Supertab to combine youcompleteme and ultisnips
 Plugin 'Chiel92/vim-autoformat'                                 " To easily format code
 Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'} " Powerline
-Plugin 'tpope/vim-fugitive'                                     " Github
+Plugin 'tpope/vim-fugitive'					                            " Github 
 Plugin 'lervag/vimtex'                                          " Vimtex is the most up-to-date for Latex
 Plugin 'godlygeek/tabular'                                      " Tabularize
 Plugin 'vim-scripts/indentpython.vim'                           " Python indentation
@@ -57,7 +57,7 @@ Plugin 'vim-pandoc/vim-pandoc-syntax'                           " Syntax support
 Plugin 'vim-pandoc/vim-rmarkdown'                               " Vim support R Markdown
 Plugin 'JamshedVesuna/vim-markdown-preview'                     " Markdown preview (install grip)
 Plugin 'sbdchd/neoformat'                                       " Vim plugin for formatting code
-Plugin 'raingo/vim-matlab'                                      " Vim support ford editing Matlab scripts
+Plugin 'raingo/vim-matlab'                                      " Vim support for editing Matlab scripts
 
 "set background=dark
 "colorscheme solarized
@@ -148,7 +148,6 @@ vnoremap p "_dP
 
 " quote a word using single quotes
 nnoremap <leader>q ciw"<C-R>""<esc>bb
-nnoremap <leader>u di"hPl2xb
 vnoremap <leader>q c"<C-r>""<esc>bb
 
 " set colorcolumn=+1
@@ -379,7 +378,8 @@ nnoremap <silent> <leader><Space> :NERDTreeToggle<CR>
 
 inoremap <silent> <leader><Space> <Esc>:NERDTreeToggle<CR>
 
-"   Latex
+
+"   Vimtex
 "
 """"""""""""""""""""""""
 
@@ -393,6 +393,9 @@ let g:syntastic_tex_lacheck_quiet_messages = { 'regex': '\Vpossible unwanted spa
 "" Use skim viewer
 "" From vimtex doc: forward search should just work. Backward search must be configure in skim
 let g:vimtex_view_method='skim'
+
+"" Set to 1 to make Skim have focus after command: VimtexView
+let g:vimtex_view_skim_activate=1
 
 " let g:vimtex_viewer_general='open -a Preview'
 " let g:vimtex_view_method='general'
@@ -416,19 +419,50 @@ function! Callback(msg)
     endif
 endfunction
 
+"let g:vimtex_compiler_latexmk = {
+"    \ 'callback'   : 1,
+"    \ 'continuous' : 1,
+"    \ 'hooks'      : [function('Callback')],
+"    \ 'options'    : [
+"    \   '-pdf',
+"    \   '-auxdir=build',
+"    \   '-outdir=build',
+"    \   '-pdflatex=lualatex',
+"    \   '-synctex=1',
+"    \   '-shell-escape',
+"    \   '-interaction=nonstopmode',
+"    \ ],
+"    \}
+
 let g:vimtex_compiler_latexmk = {
-    \ 'build_dir'  : 'build',
+    \ 'out_dir'    : 'build',
     \ 'callback'   : 1,
     \ 'continuous' : 1,
+    \ 'executable' : 'latexmk',
     \ 'hooks'      : [function('Callback')],
     \ 'options'    : [
     \   '-pdf',
+    \   '-verbose',
+    \   '-file-line-error',
     \   '-pdflatex=lualatex',
     \   '-synctex=1',
     \   '-shell-escape',
     \   '-interaction=nonstopmode',
     \ ],
     \}
+
+"let g:vimtex_compiler_latexmk_engines = {
+"    \ '_'                : '-pdf',
+"    \ 'pdfdvi'           : '-pdfdvi',
+"    \ 'pdfps'            : '-pdfps',
+"    \ 'pdflatex'         : '-pdf',
+"    \ 'luatex'           : '-lualatex',
+"    \ 'lualatex'         : '-lualatex',
+"    \ 'xelatex'          : '-xelatex',
+"    \ 'context (pdftex)' : '-pdf -pdflatex=texexec',
+"    \ 'context (luatex)' : '-pdf -pdflatex=context',
+"    \ 'context (xetex)'  : '-pdf -pdflatex=''texexec --xtx''',
+"    \}
 
 "" Enable automatic completion with youcompleteme
 if !exists('g:ycm_semantic_triggers')
@@ -437,9 +471,38 @@ endif
 
 au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
 
-"" Latex UltiSnips
 
-"" Latex Settings
+"""""""""""""""""""""""""""""""
+"""
+"""     FILETYPES CONFIGURATION
+"""
+"""""""""""""""""""""""""""""""
+
+" Bash
+" 
+
+" comment/uncomment
+au FileType sh nnoremap <buffer> <localleader>c I#<esc>
+au FileType sh vnoremap <buffer> <localleader>c <C-v>I#<esc>
+au FileType sh nnoremap <buffer> <localleader>v mm0xx`m
+
+au BufNewFile,BufRead *.sh
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2 |
+    \ set textwidth=120 |
+    \ set colorcolumn=+1 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix 
+
+
+"""""""""""""""""""""""
+
+" Latex
+" 
+"""""""""""""""""""""""
+
 " comment/uncomment
 au FileType tex nnoremap <buffer> <localleader>c I%<esc>
 au FileType tex vnoremap <buffer> <localleader>c <C-v>I%<esc>
@@ -448,12 +511,22 @@ au FileType tex nnoremap <buffer> <localleader>v mm0xx`m
 au FileType tex inoremap { {}<esc>i
 au FileType tex nnoremap <leader>b diwi\textbf{<esc>pi<Right>}<esc>
 au FileType tex vnoremap <leader>b xi\textbf{<esc>pi<Right>}<esc>
+au FileType tex nnoremap <leader>e diwi\emph{<esc>pi<Right>}<esc>
+au FileType tex vnoremap <leader>e xi\emph{<esc>pi<Right>}<esc>
 au FileType tex nnoremap <leader>i diwi\textit{<esc>pi<Right>}<esc>
 au FileType tex vnoremap <leader>i xi\textit{<esc>pi<Right>}<esc>
 au FileType tex nnoremap <leader>t diwi\texttt{<esc>pi<Right>}<esc>
 au FileType tex vnoremap <leader>t xi\texttt{<esc>pi<Right>}<esc>
 au FileType tex nnoremap <leader>u diwi\underline{<esc>pi<Right>}<esc>
 au FileType tex vnoremap <leader>u xi\underline{<esc>pi<Right>}<esc>
+au FileType tex nnoremap <leader>g diwi\gls{<esc>pi<Right>}<esc>
+au FileType tex vnoremap <leader>g xi\gls{<esc>pi<Right>}<esc>
+au FileType tex nnoremap <leader>p diwi\glspl{<esc>pi<Right>}<esc>
+au FileType tex vnoremap <leader>p xi\glspl{<esc>pi<Right>}<esc>
+au FileType tex nnoremap <leader>G diwi\Gls{<esc>pi<Right>}<esc>
+au FileType tex vnoremap <leader>G xi\Gls{<esc>pi<Right>}<esc>
+au FileType tex nnoremap <leader>x diwi\idx{<esc>pi<Right>}<esc>
+au FileType tex vnoremap <leader>x xi\idx{<esc>pi<Right>}<esc>
 
 au FileType tex setlocal shiftwidth=2
 au FileType tex setlocal spell
@@ -588,6 +661,10 @@ autocmd FileType r vmap <silent> <localleader>ry :call RAction("class", "v")<CR>
 autocmd FileType r nmap <silent> <localleader>vd :call RAction("dim")<CR> 
 autocmd FileType r vmap <silent> <localleader>vd :call RAction("dim", "v")<CR> 
 
+" other Nvim-R configs
+let g:markdown_fenced_languages = ['r', 'python']
+let g:rmd_fenced_languages = ['r', 'python']"
+
 " comment
 autocmd FileType r,rmarkdown nnoremap <buffer> <localleader>c I# <esc>0
 autocmd FileType r,rmarkdown vnoremap <buffer> <localleader>c <C-v>I# <esc>0
@@ -625,6 +702,36 @@ autocmd FileType julia nnoremap <buffer> <localleader>v mm0xx`m
 autocmd FileType julia vnoremap <buffer> <localleader>v <C-v>lx
 
 au Filetype julia 
+    \ set tabstop=4 | 
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set textwidth=120 |
+    \ set colorcolumn=+1 |
+    \ set fo+=t |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix
+
+
+" Snakemake
+" 
+"""""""""""""""""""""""
+
+augroup filetypedetect
+  autocmd! BufNewFile,BufRead Snakefile set filetype=snakemake
+  autocmd! BufNewFile,BufRead *.snake set filetype=snakemake
+  autocmd! BufNewFile,BufRead *.smk set filetype=snakemake
+augroup END
+
+" comment
+autocmd FileType snakemake nnoremap <buffer> <localleader>c I# <esc>0
+autocmd FileType snakemake vnoremap <buffer> <localleader>c <C-v>I# <esc>0
+
+" uncomment
+autocmd FileType snakemake nnoremap <buffer> <localleader>v mm0xx`m
+autocmd FileType snakemake vnoremap <buffer> <localleader>v <C-v>lx
+
+au Filetype snakemake
     \ set tabstop=4 | 
     \ set softtabstop=4 |
     \ set shiftwidth=4 |

@@ -2,23 +2,21 @@ if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi
 
-# For Anaconda3 
-# >>> conda init >>>
+# Create JAVA_HOME var
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home
+
+# >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$(CONDA_REPORT_ERRORS=false '/usr/local/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
+__conda_setup="$('/usr/local/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
-    \eval "$__conda_setup"
+    eval "$__conda_setup"
 else
     if [ -f "/usr/local/anaconda3/etc/profile.d/conda.sh" ]; then
-# . "/usr/local/anaconda3/etc/profile.d/conda.sh"  # commented out by conda initialize
-        CONDA_CHANGEPS1=false conda activate base
+        . "/usr/local/anaconda3/etc/profile.d/conda.sh"
     else
-        \export PATH="/usr/local/anaconda3/bin:$PATH"
+        export PATH="/usr/local/anaconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
-conda deactivate
-# <<< conda init <<<
+# <<< conda initialize <<<
 
-# Create JAVA_HOME var
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-11.0.2.jdk/Contents/Home
