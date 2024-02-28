@@ -23,19 +23,16 @@ Plugin 'VundleVim/Vundle.vim'
 "
 """"""""""""""""""""""""
 
-Plugin 'jnurmine/Zenburn'                                       " Color scheme terminal mode
+" Plugin 'mileszs/ack.vim'                                        " Search tools as grep (brew install ack bee)
 Plugin 'scrooloose/nerdtree'                                    " Nerdtree
-Plugin 'tmhedberg/SimpylFold'                                   " To fold the code based on indentation
-Plugin 'mileszs/ack.vim'                                        " Search tools as grep (brew install ack bee)
-Plugin 'severin-lemaignan/vim-minimap'                          " To add the overview scrollbar
 Plugin 'terryma/vim-multiple-cursors'                           " Multiple selection
 Plugin 'Valloric/YouCompleteMe'                                 " Autocompletion
 Plugin 'SirVer/ultisnips'                                       " Snippets engine
 Plugin 'honza/vim-snippets'                                     " Core of snippets (separated from the engine)
 Plugin 'ervandew/supertab'                                      " Supertab to combine youcompleteme and ultisnips
 Plugin 'Chiel92/vim-autoformat'                                 " To easily format code
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'} " Powerline
-Plugin 'tpope/vim-fugitive'					                            " Github 
+Plugin 'vim-airline/vim-airline'				" Powerline
+Plugin 'tpope/vim-fugitive'					" Github
 Plugin 'lervag/vimtex'                                          " Vimtex is the most up-to-date for Latex
 Plugin 'godlygeek/tabular'                                      " Tabularize
 Plugin 'vim-scripts/indentpython.vim'                           " Python indentation
@@ -58,9 +55,6 @@ Plugin 'vim-pandoc/vim-rmarkdown'                               " Vim support R 
 Plugin 'JamshedVesuna/vim-markdown-preview'                     " Markdown preview (install grip)
 Plugin 'sbdchd/neoformat'                                       " Vim plugin for formatting code
 Plugin 'raingo/vim-matlab'                                      " Vim support for editing Matlab scripts
-
-"set background=dark
-"colorscheme solarized
 
 call vundle#end()
 
@@ -85,26 +79,36 @@ let maplocalleader = "\\"
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
+" copy to system clipboard
+noremap <Leader>y "+y
+" paste from system clipboard
+noremap <Leader>p "+p
+
 " Use backspace
 set backspace=indent,eol,start
 
-" tabs manager 
+" tabs manager
 nnoremap th  :tabfirst<CR>
 nnoremap tk  :tabnext<CR>
 nnoremap tj  :tabprev<CR>
-nnoremap tl  :tablast<CR> 
+nnoremap tl  :tablast<CR>
 nnoremap tn :tabnew<CR>
 nnoremap td :tabclose<CR>
 nnoremap tm  :tabm<Space>
+hi TabLineFill ctermfg=DarkGray
 
-" comment 
+" buffers manager
+nnoremap bn :bnext<CR>
+nnoremap bp :bprev<CR>
+
+" comment
 autocmd FileType vim nnoremap <buffer> <localleader>c I"<esc>
 autocmd FileType vim vnoremap <buffer> <localleader>c <C-v>I"<esc>
 
 " line number options
 set numberwidth=4
-set number 
-set nornu 
+set number
+set nornu
 set encoding=utf-8
 set termencoding=utf-8
 
@@ -113,7 +117,7 @@ set textwidth=120
 set wrap
 
 " indent options
-" shiftwidth governs identation via >> or << 
+" shiftwidth governs identation via >> or <<
 " if expandtab it uses space bytes (\x20) alone
 " if noexpandtab it uses combination of space and tab (\x09) bytes
 set tabstop=8
@@ -135,7 +139,7 @@ nnoremap <leader>= viwUeb
 " new paragraph
 nnoremap ,o o<esc>o<esc>ki
 
-" navigate 
+" navigate
 nnoremap ,j }
 nnoremap ,k {
 
@@ -146,9 +150,13 @@ inoremap jk <esc>
 " without yanking it
 vnoremap p "_dP
 
-" quote a word using single quotes
+" quote a word using double quotes
 nnoremap <leader>q ciw"<C-R>""<esc>bb
 vnoremap <leader>q c"<C-r>""<esc>bb
+
+" add backticks around a word
+nnoremap <leader>e ciw`<esc>pa`<esc>
+vnoremap <leader>e c`<esc>pa`<esc>
 
 " set colorcolumn=+1
 set hlsearch
@@ -157,7 +165,7 @@ set incsearch
 set tags=./tags;,tags;./.git/tags;,.git/tags;
 nnoremap <C-]> :tjump <C-R><C-W><CR>
 cnoreabbrev t tjump
-nmap <C-$> <C-]> 
+nmap <C-$> <C-]>
 noremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
 " maximize window
@@ -168,14 +176,13 @@ nnoremap <leader>a <C-W>_<C-W><Bar>
 
 " Grammar checker
 let g:languagetool_jar='/LanguageTool-4.4-SNAPSHOT/languagetool-commandline.jar'
- 
+
 " YouCompleteMe
 let g:ycm_server_keep_logfiles=1
 let g:ycm_server_log_level='debug'
 let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
-"noremap <C-Y>  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " Spell checker
 hi clear SpellBad
@@ -186,6 +193,10 @@ command! -complete=shellcmd -nargs=+ Sh call s:RunShellCommand(<q-args>)
 function! s:RunShellCommand(cmdline)
     echo system(a:cmdline)
 endfunction
+
+" remove all trailing whitespaces on file save
+" see https://vim.fandom.com/wiki/Remove_unwanted_spaces
+autocmd BufWritePre * :%s/\s\+$//e
 
 "   CUSTOM FUNCTIONS
 "
@@ -224,7 +235,7 @@ hi EasyMotionTarget2First ctermbg=none ctermfg=red
 hi EasyMotionTarget2Second ctermbg=none ctermfg=red
 
 " Nvim-R options
-let g:R_rconsole_width  = winwidth(0) - 130  
+let g:R_rconsole_width  = winwidth(0) - 130
 
 " Fold
 let g:SimpylFold_docstring_preview=1
@@ -249,17 +260,8 @@ let g:UltiSnipsJumpBackwardTrigger                  = "<s-tab>"
 let g:ycm_autoclose_preview_window_after_completion = 1
 noremap <F8> :Automat<CR>
 
-" Powerline + font setup + Indentline
-set laststatus=2
-set t_Co=256
-set fillchars+=stl:\ ,stlnc:\
-let g:Powerline_symbols='fancy'
-if has("gui_running")
-    set guifont=InconsolataLGC_Nerd_Font_Mono:h12
-    let g:indentLine_char = ''
-    let g:indentLine_setColors = 0
-endif
-
+" Vim airline
+let g:airline#extensions#tabline#enabled = 1
 
 " Ack
 cnoreabbrev A Ack!
@@ -268,9 +270,6 @@ au FileType qf setlocal colorcolumn=0
 let g:ack_mappings = {
       \  'v': '<C-W><CR><C-W>L<C-W>p<C-W>J<C-W>p',
       \ 'gv': '<C-W><CR><C-W>L<C-W>p<C-W>J' }
-
-" Minimap
-let g:minimap_highlight = 'DiffChange'
 
 " CtrlP + ctags
 noremap <C-Y> :CtrlPTag<CR>
@@ -307,7 +306,7 @@ let cmdline_auto_scroll = 1                 " Keep the cursor at the end of term
 let cmdline_app = {}
 
 "   Pandoc Settings
-" 
+"
 """"""""""""""""""""""""
 
 let g:pandoc#formatting#textwidth=120
@@ -322,10 +321,12 @@ let g:pandoc#keyboard#blacklist_submodule_mappings=['checkboxes']
 " au FileType markdown setlocal com=fb:*,fb:-,fb:+,n:> fo=tcqln
 let g:vim_markdown_folding_style_pythonic=1
 
-" For markdown preview, you need to pip install grip
+" For markdown preview, you need to brew install grip
 let vim_markdown_preview_hotkey='<C-p>'
 let vim_markdown_preview_github=1
 let vim_markdown_preview_browser='Safari'
+let vim_markdown_preview_toggle=1
+
 
 au BufNewFile,BufRead *.md
     \ set tabstop=4 |
@@ -336,7 +337,7 @@ au BufNewFile,BufRead *.md
     \ set fo+=t |
     \ set expandtab |
     \ set autoindent |
-    \ set fileformat=unix 
+    \ set fileformat=unix
 
 
 "   Nerdtree + Dev-icons
@@ -479,7 +480,7 @@ au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
 """""""""""""""""""""""""""""""
 
 " Bash
-" 
+"
 
 " comment/uncomment
 au FileType sh nnoremap <buffer> <localleader>c I#<esc>
@@ -494,13 +495,13 @@ au BufNewFile,BufRead *.sh
     \ set colorcolumn=+1 |
     \ set expandtab |
     \ set autoindent |
-    \ set fileformat=unix 
+    \ set fileformat=unix
 
 
 """""""""""""""""""""""
 
 " Latex
-" 
+"
 """""""""""""""""""""""
 
 " comment/uncomment
@@ -532,7 +533,7 @@ au FileType tex setlocal shiftwidth=2
 au FileType tex setlocal spell
 au FileType tex set formatoptions=troqaw
 
-"" This incantation means whenever we're working with a TeX file, append to the texZone 
+"" This incantation means whenever we're working with a TeX file, append to the texZone
 "" definition the region between \begin{lstlisting} and \end{lstlisting}.
 
 au Filetype tex syntax region texZone start='\\begin{minted}' end='\\end{minted}'
@@ -552,12 +553,12 @@ au BufNewFile,BufRead *.tex
     \ set colorcolumn=+1 |
     \ set expandtab |
     \ set autoindent |
-    \ set fileformat=unix 
+    \ set fileformat=unix
 
 " Matlab
-" 
+"
 """""""""""""""""""""""
- 
+
 " set matlab filetype
 augroup filetypedetect
   au! BufRead,BufNewFile *.m, set filetype=matlab
@@ -573,13 +574,13 @@ au BufNewFile,BufRead *.m
     \ set textwidth=120 |
     \ set expandtab |
     \ set autoindent |
-    \ set fileformat=unix 
-    
+    \ set fileformat=unix
+
 " comment
 autocmd FileType matlab nnoremap <buffer> <localleader>c I% <esc>0
 autocmd FileType matlab vnoremap <buffer> <localleader>c <C-v>I% <esc>0
 
-" Python 
+" Python
 "
 """"""""""""""""""""""""
 " Specify ipython interpreter for vimcmdline plugin
@@ -625,8 +626,8 @@ au BufNewFile,BufRead *.py
     \ set autoindent |
     \ set fileformat=unix
 
-" R 
-" 
+" R
+"
 """""""""""""""""""""""
 augroup filetypedetect
   autocmd! BufNewFile,BufRead *.[rRsS] setfiletype r
@@ -656,10 +657,10 @@ let g:tagbar_type_r = {
 " open documentation in horizontal split
 let g:R_nvimpager="horizontal"
 
-autocmd FileType r nmap <silent> <localleader>ry :call RAction("class")<CR> 
-autocmd FileType r vmap <silent> <localleader>ry :call RAction("class", "v")<CR> 
-autocmd FileType r nmap <silent> <localleader>vd :call RAction("dim")<CR> 
-autocmd FileType r vmap <silent> <localleader>vd :call RAction("dim", "v")<CR> 
+autocmd FileType r nmap <silent> <localleader>ry :call RAction("class")<CR>
+autocmd FileType r vmap <silent> <localleader>ry :call RAction("class", "v")<CR>
+autocmd FileType r nmap <silent> <localleader>vd :call RAction("dim")<CR>
+autocmd FileType r vmap <silent> <localleader>vd :call RAction("dim", "v")<CR>
 
 " other Nvim-R configs
 let g:markdown_fenced_languages = ['r', 'python']
@@ -674,7 +675,7 @@ autocmd FileType r,rmarkdown nnoremap <buffer> <localleader>v mm0xx`m
 autocmd FileType r,rmarkdown vnoremap <buffer> <localleader>v <C-v>lx
 
 au Filetype r,rmarkdown
-    \ set tabstop=2 | 
+    \ set tabstop=2 |
     \ set softtabstop=2 |
     \ set shiftwidth=2 |
     \ set textwidth=120 |
@@ -684,7 +685,7 @@ au Filetype r,rmarkdown
     \ set fileformat=unix
 
 " Julia
-" 
+"
 """""""""""""""""""""""
 " Specify julia interpreter for vimcmdline plugin
 let cmdline_app["julia"] = "julia"
@@ -701,8 +702,8 @@ autocmd FileType julia vnoremap <buffer> <localleader>c <C-v>I# <esc>0
 autocmd FileType julia nnoremap <buffer> <localleader>v mm0xx`m
 autocmd FileType julia vnoremap <buffer> <localleader>v <C-v>lx
 
-au Filetype julia 
-    \ set tabstop=4 | 
+au Filetype julia
+    \ set tabstop=4 |
     \ set softtabstop=4 |
     \ set shiftwidth=4 |
     \ set textwidth=120 |
@@ -714,7 +715,7 @@ au Filetype julia
 
 
 " Snakemake
-" 
+"
 """""""""""""""""""""""
 
 augroup filetypedetect
@@ -732,7 +733,7 @@ autocmd FileType snakemake nnoremap <buffer> <localleader>v mm0xx`m
 autocmd FileType snakemake vnoremap <buffer> <localleader>v <C-v>lx
 
 au Filetype snakemake
-    \ set tabstop=4 | 
+    \ set tabstop=4 |
     \ set softtabstop=4 |
     \ set shiftwidth=4 |
     \ set textwidth=120 |
@@ -744,7 +745,7 @@ au Filetype snakemake
 
 
 " Fullstack development
-" 
+"
 """"""""""""""""""""""""
 
 au BufNewFile,BufRead *.js,*.css,*.html
@@ -759,13 +760,3 @@ augroup c_mappings
     autocmd!
     autocmd FileType c inoremap { {}<esc>i
 augroup END
-
-
-""""""""""""""""""""""""
-"""
-"""    ABBREVIATIONS 
-"""
-""""""""""""""""""""""""
-
-iabbrev waht what
-iabbrev tehn then 
