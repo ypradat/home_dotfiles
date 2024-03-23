@@ -23,38 +23,39 @@ Plugin 'VundleVim/Vundle.vim'
 "
 """"""""""""""""""""""""
 
-" Plugin 'mileszs/ack.vim'                                        " Search tools as grep (brew install ack bee)
-Plugin 'scrooloose/nerdtree'                                    " Nerdtree
-Plugin 'terryma/vim-multiple-cursors'                           " Multiple selection
-Plugin 'Valloric/YouCompleteMe'                                 " Autocompletion
-Plugin 'SirVer/ultisnips'                                       " Snippets engine
-Plugin 'honza/vim-snippets'                                     " Core of snippets (separated from the engine)
-Plugin 'ervandew/supertab'                                      " Supertab to combine youcompleteme and ultisnips
-Plugin 'Chiel92/vim-autoformat'                                 " To easily format code
-Plugin 'vim-airline/vim-airline'				" Powerline
-Plugin 'tpope/vim-fugitive'					" Github
-Plugin 'lervag/vimtex'                                          " Vimtex is the most up-to-date for Latex
-Plugin 'godlygeek/tabular'                                      " Tabularize
-Plugin 'vim-scripts/indentpython.vim'                           " Python indentation
-Plugin 'vim-python/python-syntax'                               " Python syntax highlighting
-Plugin 'vim-syntastic/syntastic'                                " Syntax highlighting
-Plugin 'nvie/vim-flake8'                                        " Python PEP8 style guide (install flake8 bee)
-Plugin 'ryanoasis/vim-devicons'                                 " Add icons to plugins
-Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'                " Add colors to icons
-Plugin 'Yggdroot/indentLine'                                    " Vertical lines indentation
-Plugin 'dpelle/vim-LanguageTool'                                " Grammar syntax check
-Plugin 'easymotion/vim-easymotion'                              " Jumps around the document with ease
-Plugin 'chrisbra/csv.vim'                                       " Additional support for csv files
-Plugin 'JuliaEditorSupport/julia-vim'                           " Julia
-Plugin 'jalvesaq/vimcmdline'                                    " Send command to tmux pane
-Plugin 'jalvesaq/Nvim-R'                                        " Vim support to edit R-code
-Plugin 'christoomey/vim-tmux-navigator'                         " Navigation between vim and tmux
-Plugin 'vim-pandoc/vim-pandoc'                                  " Integrate with pandoc document converter
-Plugin 'vim-pandoc/vim-pandoc-syntax'                           " Syntax support for pandoc
-Plugin 'vim-pandoc/vim-rmarkdown'                               " Vim support R Markdown
-Plugin 'JamshedVesuna/vim-markdown-preview'                     " Markdown preview (install grip)
-Plugin 'sbdchd/neoformat'                                       " Vim plugin for formatting code
-Plugin 'raingo/vim-matlab'                                      " Vim support for editing Matlab scripts
+"Plugin 'mileszs/ack.vim'                                                  " Search tools as grep (brew install ack bee)
+Plugin 'scrooloose/nerdtree'                                              " Nerdtree
+Plugin 'terryma/vim-multiple-cursors'                                     " Multiple selection
+Plugin 'Valloric/YouCompleteMe'                                           " Autocompletion
+Plugin 'SirVer/ultisnips'                                                 " Snippets engine
+Plugin 'honza/vim-snippets'                                               " Core of snippets (separated from the engine)
+Plugin 'ervandew/supertab'                                                " Supertab to combine youcompleteme and ultisnips
+Plugin 'Chiel92/vim-autoformat'                                           " To easily format code
+Plugin 'vim-airline/vim-airline'                                          " Powerline
+Plugin 'tpope/vim-fugitive'                                               " Github
+Plugin 'lervag/vimtex'                                                    " Vimtex is the most up-to-date for Latex
+Plugin 'godlygeek/tabular'                                                " Tabularize
+Plugin 'vim-scripts/indentpython.vim'                                     " Python indentation
+Plugin 'vim-python/python-syntax'                                         " Python syntax highlighting
+Plugin 'vim-syntastic/syntastic'                                          " Syntax highlighting
+Plugin 'nvie/vim-flake8'                                                  " Python PEP8 style guide (install flake8 bee)
+Plugin 'ryanoasis/vim-devicons'                                           " Add icons to plugins
+Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'                          " Add colors to icons
+Plugin 'Yggdroot/indentLine'                                              " Vertical lines indentation
+Plugin 'dpelle/vim-LanguageTool'                                          " Grammar syntax check
+Plugin 'easymotion/vim-easymotion'                                        " Jumps around the document with ease
+Plugin 'chrisbra/csv.vim'                                                 " Additional support for csv files
+Plugin 'JuliaEditorSupport/julia-vim'                                     " Julia
+Plugin 'jalvesaq/vimcmdline'                                              " Send command to tmux pane
+Plugin 'jalvesaq/Nvim-R'                                                  " Vim support to edit R-code
+Plugin 'christoomey/vim-tmux-navigator'                                   " Navigation between vim and tmux
+Plugin 'vim-pandoc/vim-pandoc'                                            " Integrate with pandoc document converter
+Plugin 'vim-pandoc/vim-pandoc-syntax'                                     " Syntax support for pandoc
+Plugin 'vim-pandoc/vim-rmarkdown'                                         " Vim support R Markdown
+Plugin 'JamshedVesuna/vim-markdown-preview'                               " Markdown preview (install grip)
+Plugin 'sbdchd/neoformat'                                                 " Vim plugin for formatting code
+Plugin 'raingo/vim-matlab'                                                " Vim support for editing Matlab scripts
+Plugin 'https://github.com/snakemake/snakemake.git', {'rtp': 'misc/vim/'} " Vim support for snakemake
 
 call vundle#end()
 
@@ -98,8 +99,8 @@ nnoremap tm  :tabm<Space>
 hi TabLineFill ctermfg=DarkGray
 
 " buffers manager
-nnoremap bn :bnext<CR>
-nnoremap bp :bprev<CR>
+"nnoremap bn :bnext<CR>
+"nnoremap bp :bprev<CR>
 
 " comment
 autocmd FileType vim nnoremap <buffer> <localleader>c I"<esc>
