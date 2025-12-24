@@ -211,6 +211,19 @@ autocmd BufWritePre * :%s/\s\+$//e
 """
 """"""""""""""""""""""""""
 
+augroup FiletypeDetection
+    autocmd!
+    " Conda config is YAML
+    autocmd BufRead,BufNewFile .condarc set filetype=yaml
+
+    " If you have specific YAML-based rc files
+    autocmd BufRead,BufNewFile .prettierrc,.stylelintrc set filetype=yaml
+
+    " Fallback for other rc files to shell
+    autocmd BufRead,BufNewFile *rc if &ft == '' | set filetype=sh | endif
+augroup END
+
+
 augroup MyLangSettings
     autocmd!
 

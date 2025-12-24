@@ -1,4 +1,8 @@
 channels:
   - conda-forge
+  - bioconda
+  - defaults
+
+chanel_priority: strict
 auto_activate_base: false
 anaconda_upload: true
