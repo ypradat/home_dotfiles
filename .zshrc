@@ -127,21 +127,6 @@ bindkey "^X\\x7f" backward-kill-line
 # adds redo
 bindkey "^X^_" redo
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/homebrew/Caskroom/miniforge/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh" ]; then
-        . "/opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/homebrew/Caskroom/miniforge/base/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/ypradat/Tools/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ypradat/Tools/google-cloud-sdk/path.zsh.inc'; fi
 
@@ -153,7 +138,8 @@ export GPG_TTY=$(tty)
 
 # Set personal aliases
 # simple aliases
-alias flamingo="ssh flamingo.intra.igr.fr"
+alias flamingo-01="ssh flamingo.intra.igr.fr"
+alias flamingo="ssh y_pradat@10.80.26.13"
 
 # suffix aliases
 # when typing [file_name].py, the file will be automatically created (if not existing before) and opened with the
@@ -166,3 +152,32 @@ alias -s xlsx="open -a Microsoft\ Excel"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/ypradat/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/ypradat/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "/Users/ypradat/miniforge3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/ypradat/miniforge3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba shell init' !!
+export MAMBA_EXE='/Users/ypradat/miniforge3/bin/mamba';
+export MAMBA_ROOT_PREFIX='/Users/ypradat/miniforge3';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+fi
+unset __mamba_setup
+# <<< mamba initialize <<<

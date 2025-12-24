@@ -35,10 +35,10 @@ Plugin 'vim-airline/vim-airline'                                          " Powe
 Plugin 'tpope/vim-fugitive'                                               " Github
 Plugin 'lervag/vimtex'                                                    " Vimtex is the most up-to-date for Latex
 Plugin 'godlygeek/tabular'                                                " Tabularize
+Plugin 'psf/black'							  " Python formatter
 Plugin 'vim-scripts/indentpython.vim'                                     " Python indentation
 Plugin 'vim-python/python-syntax'                                         " Python syntax highlighting
-Plugin 'vim-syntastic/syntastic'                                          " Syntax highlighting
-Plugin 'nvie/vim-flake8'                                                  " Python PEP8 style guide (install flake8 bee)
+Plugin 'vim-syntastic/syntastic'                                          " Python linter (runs flake8, pylint, etc.)
 Plugin 'ryanoasis/vim-devicons'                                           " Add icons to plugins
 Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'                          " Add colors to icons
 Plugin 'Yggdroot/indentLine'                                              " Vertical lines indentation
@@ -56,6 +56,10 @@ Plugin 'JamshedVesuna/vim-markdown-preview'                               " Mark
 Plugin 'sbdchd/neoformat'                                                 " Vim plugin for formatting code
 Plugin 'raingo/vim-matlab'                                                " Vim support for editing Matlab scripts
 Plugin 'https://github.com/snakemake/snakemake.git', {'rtp': 'misc/vim/'} " Vim support for snakemake
+Plugin 'LukeGoodsell/nextflow-vim'                                        " Vim support nextflow
+Plugin 'ypradat/vim-apptainer-syntax'                                     " Apptainer syntax highlighting
+Plugin 'vim-voom/VOoM'                                                    " Emulates a two-pane outliner
+
 
 call vundle#end()
 
@@ -115,6 +119,7 @@ set termencoding=utf-8
 
 " text width options
 set textwidth=120
+set colorcolumn=+1
 set wrap
 
 " indent options
@@ -198,6 +203,143 @@ endfunction
 " remove all trailing whitespaces on file save
 " see https://vim.fandom.com/wiki/Remove_unwanted_spaces
 autocmd BufWritePre * :%s/\s\+$//e
+
+
+""""""""""""""""""""""""""
+"""
+"""     FILETYPE SPECIFICS
+"""
+""""""""""""""""""""""""""
+
+augroup MyLangSettings
+    autocmd!
+
+    " PYTHON
+    autocmd FileType python
+        \ setlocal tabstop=4 |
+        \ setlocal shiftwidth=4 |
+        \ setlocal softtabstop=4 |
+        \ setlocal expandtab |
+        \ setlocal autoindent |
+        \ setlocal fileformat=unix |
+        \ nnoremap <buffer> <localleader>c I# <esc>0 |
+        \ vnoremap <buffer> <localleader>c <C-v>I# <esc>0 |
+        \ nnoremap <buffer> <localleader>v mm0xx`m |
+        \ vnoremap <buffer> <localleader>v <C-v>lx
+
+    " SNAKEMAKE
+    autocmd FileType snakemake
+        \ setlocal tabstop=4 |
+        \ setlocal shiftwidth=4 |
+        \ setlocal softtabstop=4 |
+        \ setlocal expandtab |
+        \ setlocal autoindent |
+        \ setlocal fileformat=unix |
+        \ setlocal formatoptions+=t |
+        \ nnoremap <buffer> <localleader>c I# <esc>0 |
+        \ vnoremap <buffer> <localleader>c <C-v>I# <esc>0 |
+        \ nnoremap <buffer> <localleader>v mm0xx`m |
+        \ vnoremap <buffer> <localleader>v <C-v>lx
+
+    " BASH / SHELL
+    autocmd FileType sh
+        \ setlocal tabstop=2 |
+        \ setlocal shiftwidth=2 |
+        \ setlocal softtabstop=2 |
+        \ setlocal expandtab |
+        \ setlocal autoindent |
+        \ setlocal fileformat=unix |
+        \ nnoremap <buffer> <localleader>c I#<esc> |
+        \ vnoremap <buffer> <localleader>c <C-v>I#<esc> |
+        \ nnoremap <buffer> <localleader>v mm0xx`m
+
+    " DATA FILES
+    autocmd FileType csv,tsv,tab
+        \ setlocal noexpandtab |
+        \ setlocal tabstop=8 |
+        \ setlocal shiftwidth=8
+
+
+    " JULIA
+    autocmd FileType julia
+        \ setlocal tabstop=4 |
+        \ setlocal shiftwidth=4 |
+        \ setlocal softtabstop=4 |
+        \ setlocal expandtab |
+        \ setlocal autoindent |
+        \ setlocal fileformat=unix |
+        \ nnoremap <buffer> <localleader>c I# <esc>0 |
+        \ vnoremap <buffer> <localleader>c <C-v>I# <esc>0 |
+        \ nnoremap <buffer> <localleader>v mm0xx`m |
+        \ vnoremap <buffer> <localleader>v <C-v>lx
+
+
+    " LATEX
+    autocmd FileType tex
+        \ setlocal tabstop=2 |
+        \ setlocal shiftwidth=2 |
+        \ setlocal softtabstop=2 |
+        \ setlocal expandtab |
+        \ setlocal autoindent |
+        \ setlocal fileformat=unix |
+        \ setlocal formatoptions=troqaw |
+        \ setlocal spell |
+        \ nnoremap <buffer> <localleader>c I%<esc> |
+        \ vnoremap <buffer> <localleader>c <C-v>I%<esc> |
+        \ nnoremap <buffer> <localleader>v mm0xx`m
+
+
+    " MARKDOWN / PANDOC
+    autocmd FileType markdown,pandoc
+        \ setlocal tabstop=4 |
+        \ setlocal shiftwidth=4 |
+        \ setlocal softtabstop=4 |
+        \ setlocal expandtab |
+        \ setlocal autoindent |
+        \ setlocal fileformat=unix |
+        \ setlocal colorcolumn=+1 |
+        \ setlocal formatoptions+=t |
+        \ setlocal spell
+
+
+    " MATLAB
+    autocmd FileType matlab
+        \ setlocal tabstop=4 |
+        \ setlocal shiftwidth=4 |
+        \ setlocal softtabstop=4 |
+        \ setlocal expandtab |
+        \ setlocal autoindent |
+        \ setlocal fileformat=unix |
+        \ nnoremap <buffer> <localleader>c I% <esc>0 |
+        \ vnoremap <buffer> <localleader>c <C-v>I% <esc>0 |
+        \ nnoremap <buffer> <localleader>v mm0xx`m
+
+
+    " R & RMARKDOWN
+    autocmd FileType r,rmarkdown
+        \ setlocal tabstop=2 |
+        \ setlocal shiftwidth=2 |
+        \ setlocal softtabstop=2 |
+        \ setlocal expandtab |
+        \ setlocal autoindent |
+        \ setlocal fileformat=unix |
+        \ nnoremap <buffer> <localleader>c I# <esc>0 |
+        \ vnoremap <buffer> <localleader>c <C-v>I# <esc>0 |
+        \ nnoremap <buffer> <localleader>v mm0xx`m |
+        \ vnoremap <buffer> <localleader>v <C-v>lx
+
+
+    " YAML / JSON / WEB
+    autocmd FileType yaml,json,js,css,html
+        \ setlocal tabstop=2 |
+        \ setlocal shiftwidth=2 |
+        \ setlocal softtabstop=2 |
+        \ setlocal expandtab |
+        \ setlocal autoindent |
+        \ setlocal fileformat=unix
+
+augroup END
+
 
 "   CUSTOM FUNCTIONS
 "
@@ -319,6 +461,10 @@ let g:pandoc#keyboard#blacklist_submodule_mappings=['checkboxes']
 "
 """"""""""""""""""""""""
 
+" for left split table of contents via voom
+let voom_ft_modes = {'markdown': 'pandoc', 'rmarkdown': 'pandoc', 'rnoweb': 'latex'}
+nnoremap <LocalLeader>t :Voom<CR>
+
 " au FileType markdown setlocal com=fb:*,fb:-,fb:+,n:> fo=tcqln
 let g:vim_markdown_folding_style_pythonic=1
 
@@ -327,18 +473,6 @@ let vim_markdown_preview_hotkey='<C-p>'
 let vim_markdown_preview_github=1
 let vim_markdown_preview_browser='Safari'
 let vim_markdown_preview_toggle=1
-
-
-au BufNewFile,BufRead *.md
-    \ set tabstop=4 |
-    \ set softtabstop=4 |
-    \ set shiftwidth=4 |
-    \ set textwidth=120 |
-    \ set colorcolumn=+1 |
-    \ set fo+=t |
-    \ set expandtab |
-    \ set autoindent |
-    \ set fileformat=unix
 
 
 "   Nerdtree + Dev-icons
@@ -381,6 +515,12 @@ nnoremap <silent> <leader><Space> :NERDTreeToggle<CR>
 inoremap <silent> <leader><Space> <Esc>:NERDTreeToggle<CR>
 
 
+" Tabularize
+"
+"""""""""""""""""""""""""""
+command! -nargs=1 -range TabFirst exec <line1> . ',' . <line2> . 'Tabularize /^[^' . escape(<q-args>, '\^$.[?*~') . ']*\zs' . escape(<q-args>, '\^$.[?*~') . '/r0c0l0'
+
+
 "   Vimtex
 "
 """"""""""""""""""""""""
@@ -421,21 +561,6 @@ function! Callback(msg)
     endif
 endfunction
 
-"let g:vimtex_compiler_latexmk = {
-"    \ 'callback'   : 1,
-"    \ 'continuous' : 1,
-"    \ 'hooks'      : [function('Callback')],
-"    \ 'options'    : [
-"    \   '-pdf',
-"    \   '-auxdir=build',
-"    \   '-outdir=build',
-"    \   '-pdflatex=lualatex',
-"    \   '-synctex=1',
-"    \   '-shell-escape',
-"    \   '-interaction=nonstopmode',
-"    \ ],
-"    \}
-
 let g:vimtex_compiler_latexmk = {
     \ 'out_dir'    : 'build',
     \ 'callback'   : 1,
@@ -453,19 +578,6 @@ let g:vimtex_compiler_latexmk = {
     \ ],
     \}
 
-"let g:vimtex_compiler_latexmk_engines = {
-"    \ '_'                : '-pdf',
-"    \ 'pdfdvi'           : '-pdfdvi',
-"    \ 'pdfps'            : '-pdfps',
-"    \ 'pdflatex'         : '-pdf',
-"    \ 'luatex'           : '-lualatex',
-"    \ 'lualatex'         : '-lualatex',
-"    \ 'xelatex'          : '-xelatex',
-"    \ 'context (pdftex)' : '-pdf -pdflatex=texexec',
-"    \ 'context (luatex)' : '-pdf -pdflatex=context',
-"    \ 'context (xetex)'  : '-pdf -pdflatex=''texexec --xtx''',
-"    \}
-
 "" Enable automatic completion with youcompleteme
 if !exists('g:ycm_semantic_triggers')
     let g:ycm_semantic_triggers = {}
@@ -482,24 +594,18 @@ au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
 
 " Bash
 "
+""""""""""""""""""""""""
 
-" comment/uncomment
-au FileType sh nnoremap <buffer> <localleader>c I#<esc>
-au FileType sh vnoremap <buffer> <localleader>c <C-v>I#<esc>
-au FileType sh nnoremap <buffer> <localleader>v mm0xx`m
+command! Shfmt execute ':w' | execute ':silent !shfmt -i 2 -w ' . shellescape(expand('%')) | execute ':edit' | redraw!
 
-au BufNewFile,BufRead *.sh
-    \ set tabstop=2 |
-    \ set softtabstop=2 |
-    \ set shiftwidth=2 |
-    \ set textwidth=120 |
-    \ set colorcolumn=+1 |
-    \ set expandtab |
-    \ set autoindent |
-    \ set fileformat=unix
+" C
+"
+""""""""""""""""""""""""
+augroup c_mappings
+    autocmd!
+    autocmd FileType c inoremap { {}<esc>i
+augroup END
 
-
-"""""""""""""""""""""""
 
 " Latex
 "
@@ -546,66 +652,35 @@ au Filetype tex syntax region texZone start='\\begin{mintinline}{' end='}'
 
 set grepprg=grep\ -nH\ $*
 
-au BufNewFile,BufRead *.tex
-    \ set tabstop=2 |
-    \ set softtabstop=2 |
-    \ set shiftwidth=2 |
-    \ set textwidth=120 |
-    \ set colorcolumn=+1 |
-    \ set expandtab |
-    \ set autoindent |
-    \ set fileformat=unix
-
 " Matlab
 "
 """""""""""""""""""""""
 
-" set matlab filetype
-augroup filetypedetect
-  au! BufRead,BufNewFile *.m, set filetype=matlab
-augroup END
-
 " integration of the mlint Matlab code checker
 autocmd BufEnter *.m    compiler mlint
-
-au BufNewFile,BufRead *.m
-    \ set tabstop=4 |
-    \ set softtabstop=4 |
-    \ set shiftwidth=4 |
-    \ set textwidth=120 |
-    \ set expandtab |
-    \ set autoindent |
-    \ set fileformat=unix
-
-" comment
-autocmd FileType matlab nnoremap <buffer> <localleader>c I% <esc>0
-autocmd FileType matlab vnoremap <buffer> <localleader>c <C-v>I% <esc>0
 
 " Python
 "
 """"""""""""""""""""""""
+
+" Define command :Black. It requires having black available in the PATH
+" This saves the file, runs 'black' in the shell, and reloads the file
+command! Black execute ':w' | execute ':silent !black ' . shellescape(expand('%')) | execute ':edit' | redraw!
+
 " Specify ipython interpreter for vimcmdline plugin
 let cmdline_app["python"] = "ipython"
 
 " There is an issue with syntax checking so deactivate  Python file
 let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
+let g:syntastic_python_flake8_args = "--config=" . expand("~/.flake8")
 
 " to remove classic <up> and <down> behaviour, paste in YCM/autoload/ycm.vim
 " SetUpKeysMapping function :
 "silent! exe 'inoremap <expr> <down> pumvisible() ? "\<c-e>\<down>" : "\<down>"'
 "silent! exe 'inoremap <expr> <up> pumvisible() ? "\<c-e>\<up>" : "\<up>"'
-"
 
 " UltiSnips
 let g:ultisnips_python_style = "numpy"
-
-" comment
-autocmd FileType python nnoremap <buffer> <localleader>c I# <esc>0
-autocmd FileType python vnoremap <buffer> <localleader>c <C-v>I# <esc>0
-
-" uncomment
-autocmd FileType python nnoremap <buffer> <localleader>v mm0xx`m
-autocmd FileType python vnoremap <buffer> <localleader>v <C-v>lx
 
 "" switch to previously used window
 imap <silent> <leader>w <Esc><C-W><C-P>
@@ -617,24 +692,9 @@ let g:flake8_show_in_file=1 " show markers
 let g:matters_python = ['yapf'] " need to pip install yapf
 let g:matter_yapf_style = 'pep8'
 
-au BufNewFile,BufRead *.py
-    \ set tabstop=4 |
-    \ set softtabstop=4 |
-    \ set shiftwidth=4 |
-    \ set textwidth=120 |
-    \ set colorcolumn=+1 |
-    \ set expandtab |
-    \ set autoindent |
-    \ set fileformat=unix
-
 " R
 "
 """""""""""""""""""""""
-augroup filetypedetect
-  autocmd! BufNewFile,BufRead *.[rRsS] setfiletype r
-  autocmd! BufNewFile,BufRead *.[rR]history setfiletype r
-  autocmd! BufNewFile,BufRead *.[rR]md setfiletype rmarkdown
-augroup END
 
 " R assign from Nvim-R
 " a single _ makes _ while another _ makes <-
@@ -667,23 +727,6 @@ autocmd FileType r vmap <silent> <localleader>vd :call RAction("dim", "v")<CR>
 let g:markdown_fenced_languages = ['r', 'python']
 let g:rmd_fenced_languages = ['r', 'python']"
 
-" comment
-autocmd FileType r,rmarkdown nnoremap <buffer> <localleader>c I# <esc>0
-autocmd FileType r,rmarkdown vnoremap <buffer> <localleader>c <C-v>I# <esc>0
-
-" uncomment
-autocmd FileType r,rmarkdown nnoremap <buffer> <localleader>v mm0xx`m
-autocmd FileType r,rmarkdown vnoremap <buffer> <localleader>v <C-v>lx
-
-au Filetype r,rmarkdown
-    \ set tabstop=2 |
-    \ set softtabstop=2 |
-    \ set shiftwidth=2 |
-    \ set textwidth=120 |
-    \ set colorcolumn=+1 |
-    \ set expandtab |
-    \ set autoindent |
-    \ set fileformat=unix
 
 " Julia
 "
@@ -691,73 +734,11 @@ au Filetype r,rmarkdown
 " Specify julia interpreter for vimcmdline plugin
 let cmdline_app["julia"] = "julia"
 
-augroup filetypedetect
-  autocmd! BufNewFile,BufRead *.jl setfiletype julia
-augroup END
-
-" comment
-autocmd FileType julia nnoremap <buffer> <localleader>c I# <esc>0
-autocmd FileType julia vnoremap <buffer> <localleader>c <C-v>I# <esc>0
-
-" uncomment
-autocmd FileType julia nnoremap <buffer> <localleader>v mm0xx`m
-autocmd FileType julia vnoremap <buffer> <localleader>v <C-v>lx
-
-au Filetype julia
-    \ set tabstop=4 |
-    \ set softtabstop=4 |
-    \ set shiftwidth=4 |
-    \ set textwidth=120 |
-    \ set colorcolumn=+1 |
-    \ set fo+=t |
-    \ set expandtab |
-    \ set autoindent |
-    \ set fileformat=unix
-
 
 " Snakemake
 "
 """""""""""""""""""""""
 
-augroup filetypedetect
-  autocmd! BufNewFile,BufRead Snakefile set filetype=snakemake
-  autocmd! BufNewFile,BufRead *.snake set filetype=snakemake
-  autocmd! BufNewFile,BufRead *.smk set filetype=snakemake
-augroup END
-
-" comment
-autocmd FileType snakemake nnoremap <buffer> <localleader>c I# <esc>0
-autocmd FileType snakemake vnoremap <buffer> <localleader>c <C-v>I# <esc>0
-
-" uncomment
-autocmd FileType snakemake nnoremap <buffer> <localleader>v mm0xx`m
-autocmd FileType snakemake vnoremap <buffer> <localleader>v <C-v>lx
-
-au Filetype snakemake
-    \ set tabstop=4 |
-    \ set softtabstop=4 |
-    \ set shiftwidth=4 |
-    \ set textwidth=120 |
-    \ set colorcolumn=+1 |
-    \ set fo+=t |
-    \ set expandtab |
-    \ set autoindent |
-    \ set fileformat=unix
-
-
-" Fullstack development
-"
-""""""""""""""""""""""""
-
-au BufNewFile,BufRead *.js,*.css,*.html
-    \ set tabstop=2 |
-    \ set softtabstop=2 |
-    \ set shiftwidth=2
-
-" C code
-"
-""""""""""""""""""""""""
-augroup c_mappings
-    autocmd!
-    autocmd FileType c inoremap { {}<esc>i
-augroup END
+" Define command :Snakefmt. It requires having snakefmt available in the PATH
+" This saves the file, runs 'snakefmt' in the shell, and reloads the file
+command! Snakefmt execute ':w' | execute ':silent !snakefmt ' . shellescape(expand('%')) | execute ':edit' | redraw!
