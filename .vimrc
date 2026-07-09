@@ -204,6 +204,31 @@ endfunction
 " see https://vim.fandom.com/wiki/Remove_unwanted_spaces
 autocmd BufWritePre * :%s/\s\+$//e
 
+" Check if we are running in a tmux/screen environment
+if &term =~ "screen" || &term =~ "tmux"
+
+    " Enable bracketed paste mode in the terminal emulator
+    " by sending the terminal escape sequence (2004h)
+    let &t_BE = "\e[?2004h"
+
+    " Disable bracketed paste mode when leaving Vim
+    let &t_BD = "\e[?2004l"
+
+    " Tell Vim the specific escape sequence to watch for
+    " at the START of a paste (the 'Paste Start' sequence)
+    exec "set t_PS=\e[200~"
+
+    " Tell Vim the specific escape sequence to watch for
+    " at the END of a paste (the 'Paste End' sequence)
+    exec "set t_PE=\e[201~"
+
+endif
+
+" If running in tmux, prevent Vim from trying to resize the terminal
+if !empty($TMUX)
+    set t_WS=
+endif
+
 
 """"""""""""""""""""""""""
 """
