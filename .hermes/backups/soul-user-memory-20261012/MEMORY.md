@@ -1,0 +1,5 @@
+Default Hermes profile has the official Spotify plugin installed/enabled and Spotify PKCE authorization configured. Spotify Connect device: “Yoann’s MacBook Pro”. The plugin’s seven tools support listening history and playback; authorization is independent of hosted connectors.
+§
+Default profile: official Spotify plugin at ~/.hermes/plugins/spotify with Spotify PKCE authorization; `hermes spotify status` verifies it, and "Yoann's MacBook Pro" is a working Spotify Connect target. Plugin auth is separate from hosted connectors.
+§
+Mac calendar access: the Hermes terminal helper has osascript automation + full EventKit calendar access. Two accounts sync calendars with colliding names — Exchange (Calendrier, Personnel, Vacances, Travail, Conférence, Anniversaires) and iCloud (Calendrier, Personnel, Travail, Maison) — so always pass the source. Exchange events keep only one reminder; iCloud events hold several. Use the macos-calendar skill's calendar_tool.swift.

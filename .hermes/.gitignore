@@ -1,0 +1,98 @@
+# ===== Secrets / credentials — NEVER commit =====
+.env
+.env.*
+!.env.example
+auth.json
+shared/
+nous_auth.json
+*.token
+credentials*
+
+# ===== Hermes program + toolchains (nested repo, huge, regenerable) =====
+/hermes-agent/
+/hermes-setup
+/installs/
+/tools/
+/bootstrap-cache/
+
+# ===== Folders kept out of git =====
+/plugins/
+/kanban/
+
+# ===== Caches (regenerable) =====
+/cache/
+/browser-profile/
+/models_dev_cache.json
+/models_dev_cache.etag
+/provider_models_cache.json
+/context_length_cache.yaml
+/.skills_prompt_snapshot.json
+/plugin-update-checks/
+/source-checks/
+
+# ===== Live databases + WAL sidecars (binary, change constantly) =====
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+*.sqlite
+*.sqlite3
+/cron/executions.db*
+
+# ===== Runtime bookkeeping / history =====
+/.clean_shutdown
+/.hermes_history
+/.codex_gpt55_autoraise_notice
+
+# ===== Runtime state / sockets / locks / pids =====
+*.lock
+*.sock
+*.pid
+gateway_state.json
+processes.json
+spawn-ledger.json
+install_id
+/state/
+/runtime/
+/locks/
+/channel_directory.json
+cron/ticker_*
+cron/output/
+
+# ===== Logs / transcripts / telemetry =====
+/logs/
+/telemetry/
+/sessions/
+/terminal-sessions/
+*.log
+
+# ===== Ephemeral media / staging / sandboxes / exports =====
+/audio_cache/
+/image_cache/
+/sandboxes/
+/exports/
+/pending/
+/pending_messages/
+/bot_relay/
+/desktop/
+/desktop-plugins/
+/pairing/
+/platforms/
+/.curator_backups/
+
+# ===== skills: keep skills/, drop its internal machinery =====
+skills/.hub/
+skills/.locks/
+skills/.usage.json*
+skills/.curator_ledger.jsonl
+skills/.curator_state
+skills/.bundled_manifest
+
+# ===== Python / OS / editor noise =====
+__pycache__/
+*.pyc
+.DS_Store
+.DS_Store?
+*~
+*.swp
+*.swo
