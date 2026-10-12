@@ -147,6 +147,29 @@ alias flamingo="ssh y_pradat@10.80.26.13"
 alias -s py=vim
 alias -s xlsx="open -a Microsoft\ Excel"
 
+# functions
+
+# Push: rpush <local_source> <remote_destination> [extra_rsync_flags...]
+rpush() {
+  rsync -avh --progress \
+    --exclude=".DS_Store" --exclude=".*.swp*" --exclude=".sync*" --exclude=".snakemake*" --exclude="~\$*" \
+    "${@:3}" \
+    "$1" y_pradat@10.80.26.13:"$2"
+}
+
+# Pull: rpull <remote_source> <local_destination> [extra_rsync_flags...]
+rpull() {
+  rsync -avh --progress \
+    --exclude=".DS_Store" --exclude=".*.swp*" --exclude=".sync*" --exclude=".snakemake*" --exclude="~\$*" \
+    "${@:3}" \
+    y_pradat@10.80.26.13:"$1" "$2"
+}
+
+path() {
+    # -f gets the absolute path, pbcopy puts it in your clipboard
+    readlink -f "$1" | tee /dev/tty | pbcopy
+}
+
 # iterm2 shell integration
 # source ~/.iterm2_shell_integration.zsh
 
@@ -181,3 +204,13 @@ else
 fi
 unset __mamba_setup
 # <<< mamba initialize <<<
+
+# User-specific exports
+export ONCOKB_TOKEN="<token>"
+export ANACONDA_API_TOKEN="<token>"
+
+# Control which characters should be treated as part of a word.
+export WORDCHARS='*?_[]~=&;!#$%^(){}<>'
+
+# Hermes Agent command
+case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) export PATH="$HOME/.local/bin:$PATH" ;; esac
